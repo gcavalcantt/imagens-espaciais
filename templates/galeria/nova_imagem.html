@@ -1,0 +1,36 @@
+{% extends 'shared/base.html' %}  <!-- Estende o template base para manter a estrutura padrão da página -->
+{% load static %}  <!-- Carrega os arquivos estáticos (CSS, JS, imagens) -->
+
+{% block content %}
+
+    <!-- Seção da galeria para o formulário de cadastro de nova fotografia -->
+    <section class="galeria" style="margin-left: 5em">
+        
+        <!-- Formulário para cadastrar uma nova imagem -->
+        <form action="{% url 'nova_imagem' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}  <!-- Token de segurança para evitar ataques CSRF -->
+
+            <div class="row">  <!-- Layout responsivo para os campos do formulário -->
+                {% for field in form.visible_fields %}  <!-- Itera sobre os campos visíveis do formulário -->
+                    <div class="col-12 col-lg-12" style="margin-bottom: 10px;">
+                        <!-- Rótulo do campo com referência ao seu ID -->
+                        <label for="{{ field.id_for_label }}" style="color:#D9D9D9; margin-bottom: 5px;">{{ field.label }}</label>
+                        {{ field }}  <!-- Renderiza o campo do formulário -->
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div>
+                <!-- Botão para submeter o formulário e cadastrar uma nova fotografia -->
+                <button type="submit" class="btn btn-success col-12" style="padding: top 5px;">Cadastrar Nova Fotografia</button>
+            </div>
+
+        </form>
+
+    </section>
+
+</main>  <!-- Fim da seção principal -->
+</div>
+</body>
+
+{% endblock %}

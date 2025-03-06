@@ -1,0 +1,28 @@
+{% extends 'shared/base.html' %}  <!-- Estende o template base para manter a estrutura padrão da página -->
+{% load static %}  <!-- Carrega arquivos estáticos (CSS, JS, imagens) -->
+
+{% block content %}
+
+    <section class="galeria" style="margin-left: 5em">  <!-- Seção principal da galeria com margem à esquerda -->
+        <!-- Formulário para editar uma imagem -->
+        <form action="{% url 'editar_imagem' foto_id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}  <!-- Token de segurança para proteger contra ataques CSRF -->
+
+            <div class="row">  <!-- Linha para agrupar os campos do formulário -->
+                {% for field in form.visible_fields %}  <!-- Loop pelos campos visíveis do formulário -->
+                <div class="col-12 col-lg-12" style="margin-bottom: 10px;">  <!-- Define a largura do campo -->
+                    <!-- Rótulo do campo do formulário -->
+                    <label for="{{ field.id_for_label }}" style="color:#D9D9D9; margin-bottom: 5px;">{{ field.label }}</label>
+                    {{ field }}  <!-- Renderiza o campo do formulário -->
+                </div>
+                {% endfor %}
+            </div>
+
+            <div>
+                <!-- Botão para submeter o formulário e editar a fotografia -->
+                <button type="submit" class="btn btn-success col-12" style="padding: top 5px;">Editar Fotografia</button>
+            </div>
+        </form>
+    </section>
+
+{% endblock %}

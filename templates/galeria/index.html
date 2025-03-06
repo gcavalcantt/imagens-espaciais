@@ -1,0 +1,62 @@
+{% extends 'shared/base.html' %}  <!-- Estende o template base para manter a estrutura padrão da página -->
+{% load static %}  <!-- Carrega arquivos estáticos (CSS, JS, imagens) -->
+
+{% block content %}
+
+    <section class="conteudo">  <!-- Seção principal do conteúdo -->
+        
+        <!-- Seção do banner com título e imagem -->
+        <section class="banner">
+            <img class="banner__imagem" src="{% static 'assets/imagens/Banner(2).png' %}" alt="banner Alura Space">
+            <h1 class="banner__titulo"> A galeria mais completa de fotos do espaço!</h1>
+        </section>
+
+        <!-- Seção de filtros por categoria (tags) -->
+        <section class="tags">
+            <p class="tags__titulo">Busque por tags:</p>
+            <ul class="tags__lista">
+                <li class="tags__tag"><a href="{% url 'filtro' 'NEBULOSA' %}" class="btn" style="color: #C9C9C9;">Nebulosa</a></li>
+                <li class="tags__tag"><a href="{% url 'filtro' 'ESTRELA' %}" class="btn" style="color: #C9C9C9;">Estrela</a></li>
+                <li class="tags__tag"><a href="{% url 'filtro' 'GALÁXIA' %}" class="btn" style="color: #C9C9C9;">Galáxia</a></li>
+                <li class="tags__tag"><a href="{% url 'filtro' 'PLANETA' %}" class="btn" style="color: #C9C9C9;">Planeta</a></li>
+            </ul>
+        </section>
+
+        <!-- Seção da galeria de fotos -->
+        <section class="galeria">
+            <div class="cards">
+                <h2 class="cards__titulo">Navegue pela galeria</h2>
+                <ul class="cards__lista">
+
+                    {% if cards %}  <!-- Verifica se há imagens disponíveis -->
+                        {% for fotografia in cards %}  <!-- Loop para exibir cada imagem da galeria -->
+                            <li class="card">
+                                <a href="{% url 'imagem' fotografia.id %}">  <!-- Link para a página da imagem -->
+                                    {% if fotografia.foto == "" or fotografia.foto == null %}  <!-- Verifica se há imagem -->
+                                        <img class="card__imagem" src="{% static 'assets/imagens/galeria/not-found.png'%}" alt="foto">
+                                    {% else %}
+                                        <img class="card__imagem" src="{{ fotografia.foto.url }}" alt="foto">
+                                    {% endif %}
+                                </a>
+                                <span class="card__tag">Estrelas</span>  <!-- Tag fixa (poderia ser dinâmica com fotografia.categoria) -->
+                                <div class="card__info">
+                                    <p class="card__titulo">{{fotografia.nome}}</p>  <!-- Nome da fotografia -->
+                                    <div class="card__texto">
+                                        <p class="card__descricao">{{fotografia.legenda}}</p>  <!-- Legenda da fotografia -->
+                                        <span>
+                                            <img src="{% static 'assets/ícones/1x/favorite_outline.png' %}" alt="ícone de coração">
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Caso não haja imagens cadastradas, nada será exibido -->
+                    {% endif %}
+
+                </ul>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}

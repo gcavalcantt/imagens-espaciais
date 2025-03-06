@@ -1,0 +1,39 @@
+{% extends 'shared/base.html' %}  <!-- Estende o template base para manter a estrutura padrão da página -->
+{% load static %}  <!-- Carrega arquivos estáticos (CSS, JS, imagens) -->
+
+{% block content %}
+    
+    <section class="conteudo">  <!-- Seção principal do conteúdo -->
+        <section class="imagem">  <!-- Seção específica para exibir a imagem -->
+            <div class="imagem__conteudo">  <!-- Div que contém toda a estrutura da imagem e informações -->
+
+                {% if fotografia.foto == "" or fotografia.foto == null %}  <!-- Verifica se há uma foto associada -->
+                    <!-- Se não houver imagem, exibe uma imagem padrão -->
+                    <img class="imagem__imagem" src="{% static 'assets/imagens/galeria/not-found.png'%}">
+                {% else %}
+                    <!-- Caso haja uma imagem, exibe a foto correspondente -->
+                    <img class="imagem__imagem" src="{{fotografia.foto.url}}">
+                {% endif %}
+
+                <div class="imagem__info">  <!-- Div com informações sobre a fotografia -->
+                    <div class="imagem__texto">  <!-- Seção de texto com detalhes da imagem -->
+                        <p class="imagem__titulo">{{fotografia.nome}}</p>  <!-- Nome da fotografia -->
+                        <p class="imagem__descricao">{{fotografia.legenda}}</p>  <!-- Legenda da fotografia -->
+                        <p class="imagem__texto">{{fotografia.descricao}}</p>  <!-- Descrição da fotografia -->
+                    </div>
+
+                    <div>  <!-- Botões de ação para editar ou deletar a imagem -->
+                        <a href="{% url 'editar_imagem' fotografia.id %}">
+                            <button class="btn btn-success col-12" style="padding: top 5px;">Editar</button>
+                        </a>
+                        <a href="{% url 'deletar_imagem' fotografia.id %}">
+                            <button class="btn btn-danger col-12" style="padding: top 5px;">Deletar</button>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
